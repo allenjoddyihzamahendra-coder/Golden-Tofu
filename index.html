@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golden Tofu - Elite Financial Intelligence</title>
+    <title>Golden Tofu - Elite Financial Intelligence v4.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -36,8 +37,8 @@
             <div class="flex items-center gap-4">
                 <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center font-black text-cyber-900 text-lg shadow-[0_0_15px_rgba(245,158,11,0.3)]">GT</div>
                 <div>
-                    <h1 class="text-base font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500">GOLDEN TOFU PLATINUM</h1>
-                    <p class="text-[9px] text-slate-500 uppercase tracking-widest font-mono-cyber">Integrated Capital Recovery & Yield Engine</p>
+                    <h1 class="text-base font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500">GOLDEN TOFU PLATINUM v4.0</h1>
+                    <p class="text-[9px] text-slate-500 uppercase tracking-widest font-mono-cyber">Live Inventory Metrics & Interactive Revenue Analytics</p>
                 </div>
             </div>
             <div class="bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
@@ -48,13 +49,17 @@
 
     <main class="max-w-[1600px] mx-auto px-6 mt-8 space-y-6">
        
-        <div class="premium-glass p-6 rounded-3xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div class="premium-glass p-6 rounded-3xl relative overflow-hidden flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
             <div class="absolute -left-12 -top-12 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl glow-bg"></div>
-            <div>
+            <div class="flex-1">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Status Pengembalian Modal (Break-Even Progress)</p>
-                <h2 id="bep-status-text" class="text-xl font-black text-white mt-1">Mengkalkulasi modal...</h2>
+                <h2 id="bep-status-text" class="text-base font-black text-white mt-1">Mengkalkulasi modal...</h2>
             </div>
-            <div class="flex gap-4 font-mono-cyber">
+            <div class="flex flex-wrap gap-4 font-mono-cyber">
+                <div class="bg-slate-900/60 border border-slate-800 px-4 py-2 rounded-xl">
+                    <p class="text-[10px] text-slate-500 uppercase">Sisa Stok Tahu Saat Ini</p>
+                    <p id="top-stock-status" class="text-base font-bold text-cyan-400">0 Pcs</p>
+                </div>
                 <div class="bg-slate-900/60 border border-slate-800 px-4 py-2 rounded-xl">
                     <p class="text-[10px] text-slate-500 uppercase">Profit Hari Ini</p>
                     <p id="top-profit-day" class="text-base font-bold text-emerald-400">Rp 0</p>
@@ -66,11 +71,47 @@
             </div>
         </div>
 
+        <div class="grid grid-cols-1 gap-6">
+            <div class="premium-glass p-6 rounded-3xl">
+                <h3 class="text-xs font-bold tracking-wider text-amber-400 uppercase mb-4 flex items-center gap-2">
+                    📈 Grafik Tren Omset Penjualan Harian Perusahaan
+                </h3>
+                <div class="w-full h-64">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
            
             <div class="lg:col-span-4 space-y-6">
+                <div class="premium-glass p-5 rounded-2xl border border-cyan-500/10">
+                    <h3 class="text-xs font-bold tracking-wider text-cyan-400 uppercase mb-4">📦 1. Kontrol Stok Produksi Tahu</h3>
+                    <form id="form-stock" class="space-y-3 text-xs">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-slate-400 mb-1">Tanggal Input</label>
+                                <input type="date" id="stock-date" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-white outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Jumlah Stok Masuk (Pcs)</label>
+                                <input type="number" id="stock-qty" placeholder="Contoh: 1000" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-white outline-none font-mono-cyber">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/30 text-cyan-400 font-bold py-2 rounded-xl uppercase tracking-wider text-[10px] transition">
+                            + Rekam Penambahan Stok Awal
+                        </button>
+                    </form>
+
+                    <div class="mt-3 bg-slate-950/60 p-3 rounded-xl border border-slate-900 text-xs font-mono-cyber space-y-1.5" id="stock-summary-box">
+                        <div class="flex justify-between text-slate-400"><span>Total Stok Diproduksi:</span><span id="stk-total-in">0 Pcs</span></div>
+                        <div class="flex justify-between text-red-400"><span>Total Potongan Terjual:</span><span id="stk-total-out">0 Pcs</span></div>
+                        <div class="border-t border-slate-800/80 my-1 pt-1 flex justify-between font-bold text-cyan-400 text-sm"><span>Sisa Stok Gudang:</span><span id="stk-total-net">0 Pcs</span></div>
+                    </div>
+                </div>
+
                 <div class="premium-glass p-5 rounded-2xl">
-                    <h3 class="text-xs font-bold tracking-wider text-amber-400 uppercase mb-4">🧱 1. Penginputan Modal Awal (Editable)</h3>
+                    <h3 class="text-xs font-bold tracking-wider text-amber-400 uppercase mb-4">🧱 2. Penginputan Modal Awal (Editable)</h3>
                     <form id="form-modal" class="space-y-3 text-xs">
                         <div>
                             <label class="block text-slate-400 mb-1">Nama Barang / Aset Investasi</label>
@@ -84,32 +125,7 @@
                             + Masukkan Data Modal
                         </button>
                     </form>
-
-                    <div class="mt-4 border-t border-slate-800/60 pt-3 max-h-40 overflow-y-auto space-y-2" id="modal-items-list">
-                        </div>
-                </div>
-
-                <div class="premium-glass p-5 rounded-2xl">
-                    <h3 class="text-xs font-bold tracking-wider text-pink-400 uppercase mb-4">👥 2. Input Gaji Karyawan (Otomatis ke Harian)</h3>
-                    <form id="form-gaji" class="space-y-3 text-xs">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-slate-400 mb-1">Tanggal Bayar</label>
-                                <input type="date" id="gaji-date" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-white outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-slate-400 mb-1">Nama Karyawan</label>
-                                <input type="text" id="gaji-name" placeholder="Ahmad / Budi" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-white outline-none">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">Nominal Gaji Terbayar (Rp)</label>
-                            <input type="number" id="gaji-amount" placeholder="0" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-3 text-white outline-none font-mono-cyber">
-                        </div>
-                        <button type="submit" class="w-full bg-pink-900/30 hover:bg-pink-900/50 border border-pink-500/30 text-pink-400 font-bold py-2 rounded-xl uppercase tracking-wider text-[10px] transition">
-                            Posting Gaji Karyawan
-                        </button>
-                    </form>
+                    <div class="mt-4 border-t border-slate-800/60 pt-3 max-h-32 overflow-y-auto space-y-2" id="modal-items-list"></div>
                 </div>
             </div>
 
@@ -142,26 +158,47 @@
                         </button>
                     </form>
                 </div>
+
+                <div class="premium-glass p-5 rounded-2xl">
+                    <h3 class="text-xs font-bold tracking-wider text-pink-400 uppercase mb-4">👥 4. Input Gaji Karyawan (Link ke Pengeluaran)</h3>
+                    <form id="form-gaji" class="space-y-3 text-xs">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-slate-400 mb-1">Tanggal Bayar</label>
+                                <input type="date" id="gaji-date" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-white outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Nama Karyawan</label>
+                                <input type="text" id="gaji-name" placeholder="Ahmad / Budi" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-2.5 text-white outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Nominal Gaji Terbayar (Rp)</label>
+                            <input type="number" id="gaji-amount" placeholder="0" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-3 text-white outline-none font-mono-cyber">
+                        </div>
+                        <button type="submit" class="w-full bg-pink-900/30 hover:bg-pink-900/50 border border-pink-500/30 text-pink-400 font-bold py-2 rounded-xl uppercase tracking-wider text-[10px] transition">
+                            Posting Gaji Karyawan
+                        </button>
+                    </form>
+                </div>
             </div>
 
-            <div class="lg:col-span-4 flex flex-col bg-slate-950/80 border border-slate-800 rounded-2xl p-4 max-h-[640px]">
+            <div class="lg:col-span-4 flex flex-col bg-slate-950/80 border border-slate-800 rounded-2xl p-4 max-h-[780px]">
                 <div class="border-b border-slate-800 pb-2 mb-3 flex justify-between items-center">
                     <span class="text-xs font-bold tracking-wider uppercase text-slate-400 font-mono-cyber">📋 EXCEL DATA HISTORIC ENGINE</span>
-                    <button onclick="clearSystem()" class="text-[9px] text-red-500 font-mono-cyber uppercase hover:underline">Reset</button>
+                    <button onclick="clearSystem()" class="text-[9px] text-red-500 font-mono-cyber uppercase hover:underline">Reset Database</button>
                 </div>
-
                 <div class="overflow-x-auto overflow-y-auto flex-1 text-xs">
                     <table class="w-full text-left border-collapse border border-slate-900">
                         <thead>
                             <tr>
                                 <th class="excel-th">Tanggal</th>
                                 <th class="excel-th">Keterangan Aktivitas</th>
-                                <th class="excel-th text-right">Uang Kas (Rp)</th>
+                                <th class="excel-th text-right">Uang Kas</th>
                                 <th class="excel-th text-center">X</th>
                             </tr>
                         </thead>
-                        <tbody id="excel-rows" class="font-mono-cyber text-slate-300">
-                            </tbody>
+                        <tbody id="excel-rows" class="font-mono-cyber text-slate-300"></tbody>
                     </table>
                 </div>
             </div>
@@ -170,14 +207,17 @@
     </main>
 
     <script>
-        // CORE MEMORY DATABASE
+        // CORE PERSISTENT LOCAL STORAGE DATABASES
         let dbModal = JSON.parse(localStorage.getItem('gt_db_modal')) || [];
         let dbOps = JSON.parse(localStorage.getItem('gt_db_ops')) || [];
+        let dbStock = JSON.parse(localStorage.getItem('gt_db_stock')) || [];
+        let salesChartInstance = null;
 
         document.getElementById('ops-date').valueAsDate = new Date();
         document.getElementById('gaji-date').valueAsDate = new Date();
+        document.getElementById('stock-date').valueAsDate = new Date();
 
-        // LOGIKA PENENTUAN PCS OTOMATIS BERDASARKAN ATURAN GROSIR USER
+        // HARGA OTOMATIS TIERED GROSIR ENGINE
         function calculateAutoPcs() {
             let money = parseInt(document.getElementById('sell-amount').value) || 0;
             let totalPcs = 0;
@@ -189,7 +229,6 @@
             } else {
                 totalPcs = processSubTier(money);
             }
-
             document.getElementById('auto-pcs-display').innerText = totalPcs.toLocaleString('id-ID') + " Pcs";
             return totalPcs;
         }
@@ -202,7 +241,19 @@
             return 0;
         }
 
-        // INPUT MODAL DATA CONROLLER
+        // CONTROL ADD STOCK INVENTORY
+        document.getElementById('form-stock').addEventListener('submit', function(e) {
+            e.preventDefault();
+            dbStock.push({
+                id: Date.now(),
+                date: document.getElementById('stock-date').value,
+                qty: parseInt(document.getElementById('stock-qty').value)
+            });
+            saveAndRenderAll();
+            document.getElementById('stock-qty').value = '';
+        });
+
+        // CONTROL CAPITAL INVESTMENT (EDITABLE)
         document.getElementById('form-modal').addEventListener('submit', function(e) {
             e.preventDefault();
             dbModal.push({
@@ -220,28 +271,20 @@
             saveAndRenderAll();
         }
 
-        // INPUT GAJI OPERASIONAL CONTROLLER (LINKING TO OPS DIRECTLY)
+        // CONTROL PAYROLL EXPENSES SYSTEM
         document.getElementById('form-gaji').addEventListener('submit', function(e) {
             e.preventDefault();
             const date = document.getElementById('gaji-date').value;
             const name = document.getElementById('gaji-name').value;
             const amount = parseInt(document.getElementById('gaji-amount').value);
 
-            dbOps.push({
-                id: Date.now(),
-                date: date,
-                type: 'gaji',
-                desc: `Beban Gaji: Karyawan n.a ${name}`,
-                out: amount,
-                in: 0,
-                pcs: 0
-            });
+            dbOps.push({ id: Date.now(), date, type: 'gaji', desc: `Beban Gaji: ${name}`, out: amount, in: 0, pcs: 0 });
             saveAndRenderAll();
             document.getElementById('gaji-name').value = '';
             document.getElementById('gaji-amount').value = '';
         });
 
-        // INPUT OPERASIONAL PEMBELIAN DAN PENJUALAN HARIAN
+        // CONTROL LOG OPERASIONAL HARIAN
         document.getElementById('form-ops').addEventListener('submit', function(e) {
             e.preventDefault();
             const date = document.getElementById('ops-date').value;
@@ -250,13 +293,11 @@
             const sellAmt = parseInt(document.getElementById('sell-amount').value) || 0;
             const autoPcs = calculateAutoPcs();
 
-            // Input Pembelian jika ada data masuk
             if (buyAmt > 0 && buyName !== '') {
                 dbOps.push({ id: Date.now(), date, type: 'pembelian', desc: buyName, out: buyAmt, in: 0, pcs: 0 });
             }
-            // Input Omset Penjualan jika ada data masuk
             if (sellAmt > 0) {
-                dbOps.push({ id: Date.now() + 1, date, type: 'penjualan', desc: `Omset Penjualan Harian (${autoPcs} Pcs)`, out: 0, in: sellAmt, pcs: autoPcs });
+                dbOps.push({ id: Date.now() + 1, date, type: 'penjualan', desc: `Omset Jual Tahu (${autoPcs} Pcs)`, out: 0, in: sellAmt, pcs: autoPcs });
             }
 
             saveAndRenderAll();
@@ -272,44 +313,58 @@
         }
 
         function clearSystem() {
-            if(confirm("Hapus seluruh memory finansial?")) {
-                dbModal = []; dbOps = []; saveAndRenderAll();
+            if(confirm("Apakah Anda yakin ingin mengosongkan seluruh riwayat finansial perusahaan?")) {
+                dbModal = []; dbOps = []; dbStock = []; saveAndRenderAll();
             }
         }
 
         function saveAndRenderAll() {
             localStorage.setItem('gt_db_modal', JSON.stringify(dbModal));
             localStorage.setItem('gt_db_ops', JSON.stringify(dbOps));
+            localStorage.setItem('gt_db_stock', JSON.stringify(dbStock));
             calculateBusinessIntelligence();
         }
 
-        // CORE FINANCIAL COMPUTATION ENGINE
+        // FINANCIAL AND INVENTORY CALCULATION ENGINE
         function calculateBusinessIntelligence() {
+            // Calculate Modal
             let totalCapitalInput = 0;
             const mList = document.getElementById('modal-items-list');
             mList.innerHTML = '';
-           
             dbModal.forEach(m => {
                 totalCapitalInput += m.amount;
                 mList.innerHTML += `
                     <div class="bg-slate-900/80 p-2.5 border border-slate-800 rounded-lg flex justify-between items-center text-[11px]">
                         <div><p class="font-bold text-slate-300">${m.name}</p><p class="text-slate-500">Rp ${m.amount.toLocaleString('id-ID')}</p></div>
-                        <button onclick="deleteModalItem(${m.id})" class="text-red-500 font-bold hover:text-red-400">✕</button>
+                        <button onclick="deleteModalItem(${m.id})" class="text-red-500 font-bold">✕</button>
                     </div>
                 `;
             });
 
-            // Urutkan Excel Ledger berdasarkan tanggal
+            // Calculate Stock Inventory Metrics
+            let totalStockIn = 0;
+            dbStock.forEach(s => totalStockIn += s.qty);
+
+            let totalTahuTerjual = 0;
+            dbOps.forEach(o => { if(o.type === 'penjualan') totalTahuTerjual += o.pcs; });
+
+            let netStockAvailable = totalStockIn - totalTahuTerjual;
+            document.getElementById('stk-total-in').innerText = totalStockIn.toLocaleString('id-ID') + " Pcs";
+            document.getElementById('stk-total-out').innerText = totalTahuTerjual.toLocaleString('id-ID') + " Pcs";
+            document.getElementById('stk-total-net').innerText = netStockAvailable.toLocaleString('id-ID') + " Pcs";
+            document.getElementById('top-stock-status').innerText = netStockAvailable.toLocaleString('id-ID') + " Pcs";
+
+            // Render Spreadsheet Rows & Calculate Line Profit
             dbOps.sort((a,b) => new Date(b.date) - new Date(a.date));
             const excelRows = document.getElementById('excel-rows');
             excelRows.innerHTML = '';
 
-            let currentDayProfit = 0;
-            let currentMonthProfit = 0;
-            let totalAccumulatedNet = 0;
-
+            let currentDayProfit = 0, currentMonthProfit = 0, totalAccumulatedNet = 0;
             const todayStr = new Date().toISOString().split('T')[0];
-            const thisMonthStr = todayStr.substring(0, 7); // YYYY-MM
+            const thisMonthStr = todayStr.substring(0, 7);
+
+            // Objek map untuk data grafik
+            let chartDataMap = {};
 
             dbOps.forEach(o => {
                 let netRow = o.in - o.out;
@@ -318,39 +373,97 @@
                 if(o.date === todayStr) currentDayProfit += netRow;
                 if(o.date.substring(0,7) === thisMonthStr) currentMonthProfit += netRow;
 
+                // Akumulasikan omset kotor khusus penjualan untuk data Chart
+                if(o.type === 'penjualan') {
+                    chartDataMap[o.date] = (chartDataMap[o.date] || 0) + o.in;
+                }
+
                 let rowStyle = o.in > 0 ? "text-emerald-400" : (o.type === 'gaji' ? "text-pink-400" : "text-red-400");
                 let displayAmt = o.in > 0 ? `+Rp ${o.in.toLocaleString('id-ID')}` : `-Rp ${o.out.toLocaleString('id-ID')}`;
 
                 excelRows.innerHTML += `
                     <tr class="hover:bg-white/5 border-b border-slate-900">
                         <td class="excel-td text-slate-500 text-[11px]">${o.date}</td>
-                        <td class="excel-td truncate max-w-[150px] font-semibold text-slate-300">${o.desc}</td>
+                        <td class="excel-td truncate max-w-[140px] font-semibold text-slate-300">${o.desc}</td>
                         <td class="excel-td text-right font-bold ${rowStyle}">${displayAmt}</td>
                         <td class="excel-td text-center"><button onclick="deleteOpsRow(${o.id})" class="text-slate-600 hover:text-red-400">🗑️</button></td>
                     </tr>
                 `;
             });
 
-            // UPDATE STATS & COUNTERS
             document.getElementById('top-profit-day').innerText = "Rp " + currentDayProfit.toLocaleString('id-ID');
             document.getElementById('top-profit-month').innerText = "Rp " + currentMonthProfit.toLocaleString('id-ID');
 
-            // LOGIKA BREAK EVEN TRACKING LOGIC
+            // Break Even Tracking Status Logic
             const statusWidget = document.getElementById('bep-status-text');
             if (totalCapitalInput === 0) {
-                statusWidget.innerHTML = `<span class="text-slate-400">Silakan masukkan data Modal Awal untuk melacak efisiensi investasi usaha Anda.</span>`;
+                statusWidget.innerHTML = `<span class="text-slate-400">Silakan masukkan data Modal Awal untuk memulai pelacakan BEP.</span>`;
             } else {
                 let sisaBebanModal = totalCapitalInput - totalAccumulatedNet;
                 if (sisaBebanModal > 0) {
-                    statusWidget.innerHTML = `<span class="text-red-400">Fase Pemulihan Modal Usaha</span> $\rightarrow$ Kurang <span class="text-amber-400 font-mono-cyber text-2xl px-1">Rp ${sisaBebanModal.toLocaleString('id-ID')}</span> lagi untuk mencapai titik impas (Break-Even).`;
+                    statusWidget.innerHTML = `<span class="text-red-400 font-bold">Fase Pemulihan Modal</span> $\rightarrow$ Kurang <span class="text-amber-400 font-mono-cyber text-xl px-1">Rp ${sisaBebanModal.toLocaleString('id-ID')}</span> lagi untuk titik impas.`;
                 } else {
-                    let surplusMurni = Math.abs(sisaBebanModal);
-                    statusWidget.innerHTML = `<span class="text-emerald-400 text-glow-gold font-extrabold">🎉 MODAL AWAL LUNAS TERTUTUP!</span> Perusahaan berada dalam akumulasi Laba Bersih Murni sebesar <span class="text-amber-400 font-mono-cyber text-2xl px-1">Rp ${surplusMurni.toLocaleString('id-ID')}</span>.`;
+                    statusWidget.innerHTML = `<span class="text-emerald-400 font-extrabold text-glow-gold">🎉 MODAL SELESAI TERTUTUP!</span> Keuntungan Bersih Murni: <span class="text-amber-400 font-mono-cyber text-xl px-1">Rp ${Math.abs(sisaBebanModal).toLocaleString('id-ID')}</span>.`;
                 }
             }
+
+            // TRIGGER CHART RE-RENDER
+            renderInteractiveChart(chartDataMap);
         }
 
-        // BOOTING ENGINE FIRST TIME
+        // CHART.JS ENGINE INITIALIZATION
+        function renderInteractiveChart(chartDataMap) {
+            // Urutkan tanggal dari data penjualan untuk sumbu X grafik
+            let sortedDates = Object.keys(chartDataMap).sort((a,b) => new Date(a) - new Date(b));
+            let revenueValues = sortedDates.map(date => chartDataMap[date]);
+
+            // Jika belum ada data, beri data default agar grafik tidak kosong
+            if(sortedDates.length === 0) {
+                sortedDates = ["Belum Ada Data Penjualan"];
+                revenueValues = [0];
+            }
+
+            const ctx = document.getElementById('salesChart').getContext('2d');
+           
+            if (salesChartInstance) {
+                salesChartInstance.destroy(); // Hancurkan chart lama agar tidak tumpang tindih
+            }
+
+            // Buat efek warna gradasi premium di bawah garis grafik
+            let gradientGlow = ctx.createLinearGradient(0, 0, 0, 200);
+            gradientGlow.addColorStop(0, 'rgba(245, 158, 11, 0.3)');
+            gradientGlow.addColorStop(1, 'rgba(245, 158, 11, 0)');
+
+            salesChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: sortedDates,
+                    datasets: [{
+                        label: 'Omset Harian (Rp)',
+                        data: revenueValues,
+                        borderColor: '#f59e0b',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#d97706',
+                        pointHoverRadius: 6,
+                        fill: true,
+                        backgroundColor: gradientGlow,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#94a3b8', font: { family: 'Share Tech Mono' } } },
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Share Tech Mono' } } }
+                    }
+                }
+            });
+        }
+
+        // SYSTEM COLD START
         calculateBusinessIntelligence();
     </script>
 </body>
