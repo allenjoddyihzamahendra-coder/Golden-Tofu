@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Tofu - Financial Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#fefcbf',
+                            500: '#d69e2e',
+                            600: '#b7791f',
+                            700: '#975a16',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <nav class="bg-gradient-to-r from-gold-700 to-gold-500 text-white shadow-lg p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wider">🌟 GOLDEN TOFU SYSTEM</h1>
+            <span class="bg-white text-gold-700 px-3 py-1 rounded-full text-xs font-bold shadow">Mode: Perusahaan</span>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 max-w-6xl">
+       
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
+                <p class="text-xs text-gray-500 uppercase font-semibold">Total Modal Kerja</p>
+                <p id="txt-total-modal" class="text-xl font-bold text-gray-800">Rp 0</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500">
+                <p class="text-xs text-gray-500 uppercase font-semibold">Pemasukan Hari Ini</p>
+                <p id="txt-pemasukan-hari" class="text-xl font-bold text-green-600">Rp 0</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500">
+                <p class="text-xs text-gray-500 uppercase font-semibold">Pengeluaran Hari Ini</p>
+                <p id="txt-pengeluaran-hari" class="text-xl font-bold text-red-600">Rp 0</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-gold-500">
+                <p class="text-xs text-gray-500 uppercase font-semibold">Status Balik Modal</p>
+                <p id="txt-status-roi" class="text-sm font-bold text-gold-600 mt-1">Menghitung...</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+           
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-fit">
+                <h2 class="text-lg font-bold text-gray-700 mb-4 border-b pb-2 flex items-center gap-2">
+                    📝 Input Transaksi Harian
+                </h2>
+               
+                <form id="financial-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Tanggal</label>
+                        <input type="date" id="input-date" required class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-gold-500 outline-none">
+                    </div>
+                   
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Kategori Keuangan</label>
+                        <select id="input-category" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-gold-500 outline-none">
+                            <option value="modal">Target Modal Kerja Awal (Investasi)</option>
+                            <option value="pemasukan">Pemasukan (Penjualan Golden Tofu)</option>
+                            <option value="pengeluaran">Pengeluaran Operasional (Bahan Baku/Sewa)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Keterangan / Nama Barang</label>
+                        <input type="text" id="input-desc" placeholder="Contoh: Beli Kedelai 50kg / Jual 100 Pcs Tahu" required class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-gold-500 outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Total Nominal (Rupiah)</label>
+                        <input type="number" id="input-amount" placeholder="Contoh: 500000" required class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-gold-500 outline-none">
+                    </div>
+
+                    <button type="submit" class="w-full bg-gold-600 hover:bg-gold-700 text-white font-bold py-3 rounded-lg shadow transition duration-200">
+                        Simpan ke Jurnal Keuangan
+                    </button>
+                </form>
+            </div>
+
+            <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-4 border-b pb-2">
+                    <h2 class="text-lg font-bold text-gray-700 flex items-center gap-2">
+                        📊 Buku Kas & Jurnal Keuangan Perusahaan
+                    </h2>
+                    <button onclick="clearData()" class="text-xs text-red-500 hover:underline">Hapus Semua Data</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                                <th class="p-3 border-b">Tanggal</th>
+                                <th class="p-3 border-b">Kategori</th>
+                                <th class="p-3 border-b">Keterangan</th>
+                                <th class="p-3 border-b text-right">Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body" class="text-sm divide-y">
+                            </tbody>
+                    </table>
+                </div>
+               
+                <div id="empty-state" class="text-center py-12 text-gray-400 hidden">
+                    Belum ada data keuangan yang dimasukkan hari ini.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Ambil data awal dari LocalStorage atau buat array kosong jika baru pertama kali buka
+        let financialData = JSON.parse(localStorage.getItem('goldenTofuData')) || [];
+
+        // Set otomatis tanggal hari ini pada input form
+        document.getElementById('input-date').valueAsDate = new Date();
+
+        // Handle submit form
+        document.getElementById('financial-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const date = document.getElementById('input-date').value;
+            const category = document.getElementById('input-category').value;
+            const desc = document.getElementById('input-desc').value;
+            const amount = parseInt(document.getElementById('input-amount').value);
+
+            // Simpan objek data baru
+            financialData.push({ date, category, desc, amount });
+           
+            // Simpan ke local storage browser
+            localStorage.setItem('goldenTofuData', JSON.stringify(financialData));
+
+            // Reset form input (kecuali tanggal)
+            document.getElementById('input-desc').value = '';
+            document.getElementById('input-amount').value = '';
+
+            // Refresh UI tampilan halaman
+            renderApp();
+        });
+
+        // Fungsi format mata uang Rupiah standar Indonesia
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toLocaleString('id-ID');
+        }
+
+        // Fungsi untuk menghapus semua data (Reset)
+        function clearData() {
+            if(confirm("Apakah Anda yakin ingin menghapus seluruh riwayat pembukuan Golden Tofu?")) {
+                financialData = [];
+                localStorage.removeItem('goldenTofuData');
+                renderApp();
+            }
+        }
+
+        // Fungsi utama untuk memproses perhitungan data dan menampilkan ke layar
+        function renderApp() {
+            const tableBody = document.getElementById('table-body');
+            const emptyState = document.getElementById('empty-state');
+           
+            tableBody.innerHTML = '';
+
+            let totalModal = 0;
+            let totalPemasukan = 0;
+            let totalPengeluaran = 0;
+
+            if (financialData.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+               
+                // Urutkan data berdasarkan tanggal terbaru
+                financialData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                financialData.forEach(item => {
+                    // Hitung Akumulasi
+                    if (item.category === 'modal') totalModal += item.amount;
+                    if (item.category === 'pemasukan') totalPemasukan += item.amount;
+                    if (item.category === 'pengeluaran') totalPengeluaran += item.amount;
+
+                    // Tentukan warna tag kategori
+                    let catBadge = '';
+                    let amountClass = '';
+                    if(item.category === 'modal') {
+                        catBadge = '<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Modal Awal</span>';
+                        amountClass = 'text-blue-600 font-semibold';
+                    } else if(item.category === 'pemasukan') {
+                        catBadge = '<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Pemasukan</span>';
+                        amountClass = 'text-green-600 font-semibold';
+                    } else {
+                        catBadge = '<span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Pengeluaran</span>';
+                        amountClass = 'text-red-600 font-semibold';
+                    }
+
+                    // Buat baris tabel baru
+                    const row = `
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-3 text-gray-600">${item.date}</td>
+                            <td class="p-3">${catBadge}</td>
+                            <td class="p-3 font-medium">${item.desc}</td>
+                            <td class="p-3 text-right ${amountClass}">${formatRupiah(item.amount)}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            }
+
+            // Hitung Status Balik Modal (ROI)
+            // Keuntungan Bersih Saat Ini = Total Pemasukan - Total Pengeluaran
+            let netProfit = totalPemasukan - totalPengeluaran;
+            let sisaModalHarusKembali = totalModal - netProfit;
+            let statusRoiText = '';
+
+            if (totalModal === 0) {
+                statusRoiText = 'Belum ada input Target Modal Awal.';
+            } else if (sisaModalHarusKembali > 0) {
+                statusRoiText = `Kurang ${formatRupiah(sisaModalHarusKembali)} untuk Balik Modal`;
+            } else {
+                statusRoiText = `🎉 LUNAS BALIK MODAL! Profit Murni: ${formatRupiah(Math.abs(sisaModalHarusKembali))}`;
+            }
+
+            // Update Angka di Dashboard Atas
+            document.getElementById('txt-total-modal').innerText = formatRupiah(totalModal);
+            document.getElementById('txt-pemasukan-hari').innerText = formatRupiah(totalPemasukan);
+            document.getElementById('txt-pengeluaran-hari').innerText = formatRupiah(totalPengeluaran);
+            document.getElementById('txt-status-roi').innerText = statusRoiText;
+        }
+
+        // Jalankan fungsi render saat pertama kali web dibuka
+        renderApp();
+    </script>
+</body>
+</html>
