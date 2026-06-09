@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golden Tofu - Executive Cyber ERP System</title>
+    <title>Golden Tofu - Cyber Enterprise ERP v3.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,373 +21,387 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: radial-gradient(circle at top right, #0d1e3d, #01081a); }
         .font-mono-cyber { font-family: 'Share Tech Mono', sans-serif; }
-        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.07); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-        .glass-card-gold { background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(245, 158, 11, 0.01)); border: 1px solid rgba(245, 158, 11, 0.2); shadow: 0 0 20px rgba(245, 158, 11, 0.05); }
-        .text-glow-gold { text-shadow: 0 0 12px rgba(245, 158, 11, 0.6); }
-        .glow-border:focus { border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
-        /* Animasi Ring Berputar */
+        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+        .glass-card-gold { background: linear-gradient(135deg, rgba(245, 158, 11, 0.04), rgba(245, 158, 11, 0.01)); border: 1px solid rgba(245, 158, 11, 0.15); }
+        .excel-input { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 12px; padding: 6px 10px; outline: none; border-radius: 6px; }
+        .excel-input:focus { border-color: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.2); }
+        .excel-th { background: #0f172a; color: #94a3b8; font-family: 'Share Tech Mono', sans-serif; font-size: 11px; font-weight: normal; padding: 8px; border: 1px solid #1e293b; text-transform: uppercase; }
+        .excel-td { padding: 6px 8px; border: 1px solid #1e293b; font-size: 12px; }
         @keyframes rotate-ring { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .animated-ring { animation: rotate-ring 8s linear infinite; }
+        .animated-ring { animation: rotate-ring 12s linear infinite; }
     </style>
 </head>
-<body class="text-slate-100 min-h-screen pb-12 antialiased">
+<body class="text-slate-200 min-h-screen pb-12 antialiased">
 
-    <header class="border-b border-slate-800 bg-cyber-900/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <header class="border-b border-slate-800/80 bg-cyber-900/90 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center font-black text-cyber-900 text-xl shadow-[0_0_20px_rgba(245,158,11,0.4)]">GT</div>
+                <div class="w-11 h-11 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center font-black text-cyber-900 text-lg shadow-[0_0_15px_rgba(245,158,11,0.3)]">GT</div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500 text-glow-gold">GOLDEN TOFU</h1>
-                    <p class="text-[10px] text-slate-400 uppercase tracking-widest font-mono-cyber">Global Leader Operational Center</p>
+                    <h1 class="text-lg font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500">GOLDEN TOFU EXECUTIVE</h1>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest font-mono-cyber">Dynamic Master Catalog & Excel Live Ledger</p>
                 </div>
             </div>
-            <div class="flex items-center gap-6">
-                <div class="text-right hidden md:block">
-                    <p class="text-xs text-slate-400">Welcome User,</p>
-                    <p class="text-sm font-bold text-amber-400">CHIEF EXECUTIVE OFFICER</p>
-                </div>
-                <div class="bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase">
-                    👑 Enterprise Active
-                </div>
+            <div class="flex gap-2 bg-slate-900/60 p-1 rounded-xl border border-slate-800">
+                <button onclick="switchTab('core')" id="tab-btn-core" class="px-4 py-2 text-xs font-bold rounded-lg transition bg-amber-500 text-cyber-900 shadow">📊 WORKSPACE KEUANGAN</button>
+                <button onclick="switchTab('catalog')" id="tab-btn-catalog" class="px-4 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white">⚙️ KELOLA KATALOG MASTER (EDITABLE)</button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="max-w-[1600px] mx-auto px-6 mt-6">
        
-        <section class="lg:col-span-7 space-y-8">
+        <div id="view-core" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
            
-            <div class="glass-panel p-6 rounded-3xl grid grid-cols-1 md:grid-cols-2 gap-6 items-center relative overflow-hidden">
-                <div class="absolute -right-16 -bottom-16 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl"></div>
-               
-                <div class="flex flex-col items-center justify-center border-r border-slate-800/60 pr-4">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Golden Profit Ratio</p>
-                    <div class="relative w-40 h-40 flex items-center justify-center">
+            <div class="lg:col-span-4 space-y-6">
+                <div class="glass-panel p-5 rounded-2xl flex items-center gap-6 relative overflow-hidden">
+                    <div class="relative w-24 h-24 flex-shrink-0 flex items-center justify-center">
                         <svg class="absolute w-full h-full animated-ring" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="44" stroke="rgba(245, 158, 11, 0.1)" stroke-width="4" fill="none"/>
-                            <circle cx="50" cy="50" r="44" stroke="#f59e0b" stroke-width="5" stroke-dasharray="200 100" fill="none" stroke-linecap="round" class="drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]"/>
+                            <circle cx="50" cy="50" r="44" stroke="rgba(245, 158, 11, 0.05)" stroke-width="4" fill="none"/>
+                            <circle cx="50" cy="50" r="44" stroke="#f59e0b" stroke-width="5" stroke-dasharray="180 100" fill="none" stroke-linecap="round"/>
                         </svg>
-                        <div class="text-center z-10">
-                            <span id="txt-profit-pct" class="text-3xl font-black text-white text-glow-gold">0%</span>
-                            <p class="text-[9px] text-slate-400 uppercase font-mono-cyber mt-1 tracking-widest">Profitability</p>
-                        </div>
+                        <span id="txt-profit-pct" class="text-xl font-black text-white font-mono-cyber">0%</span>
                     </div>
-                </div>
-
-                <div class="space-y-5">
                     <div>
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Target Balik Modal (ROI Progress)</span>
-                        <div class="flex justify-between items-baseline mb-1">
-                            <span id="txt-roi-status" class="text-sm font-bold text-amber-400 font-mono-cyber">Mengevaluasi...</span>
-                            <span id="txt-roi-bar-pct" class="text-xs text-slate-400">0%</span>
-                        </div>
-                        <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden p-0.5 border border-slate-800">
-                            <div id="bar-roi" class="bg-gradient-to-r from-amber-600 to-amber-400 h-1 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Profitabilitas Bersih</p>
+                        <p id="txt-net-profit" class="text-xl font-bold font-mono-cyber text-emerald-400 mt-1">Rp 0</p>
+                        <div class="mt-2 text-[11px] text-slate-400" id="txt-roi-status">Menunggu data modal awal...</div>
                     </div>
+                </div>
 
-                    <div class="pt-4 border-t border-slate-800/60">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Asset Depreciation Fund (Dana Cadangan Alat)</span>
-                        <div id="txt-depresiasi" class="text-xl font-bold font-mono-cyber text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]">Rp 0</div>
-                    </div>
+                <div class="glass-panel p-6 rounded-2xl glass-card-gold">
+                    <h3 class="text-xs font-bold tracking-widest text-amber-400 uppercase mb-4">⚡ Entri Transaksi Cerdas</h3>
+                    <form id="form-transaction" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-slate-400 text-[11px] mb-1">Tanggal</label>
+                                <input type="date" id="tx-date" required class="w-full excel-input py-2">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 text-[11px] mb-1">Pilih Katalog Master</label>
+                                <select id="tx-catalog-select" onchange="applyCatalogSelect()" class="w-full excel-input py-2 text-amber-400 font-bold">
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-slate-400 text-[11px] mb-1">Deskripsi/Nama Item</label>
+                            <input type="text" id="tx-desc" required class="w-full excel-input py-2">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-slate-400 text-[11px] mb-1">Pos Akuntansi</label>
+                                <input type="text" id="tx-category" readonly class="w-full excel-input py-2 bg-slate-900/90 text-slate-400 font-mono-cyber uppercase">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 text-[11px] mb-1">Total Nominal (Rp)</label>
+                                <input type="number" id="tx-amount" required class="w-full excel-input py-2 font-mono-cyber text-amber-300">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-cyber-900 font-black py-2.5 rounded-xl uppercase tracking-widest text-xs transition shadow-md">
+                            Posting ke Excel Live Ledger
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div class="glass-panel p-4 rounded-2xl border-l-2 border-blue-500 bg-slate-900/20">
-                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">CAPEX (Modal)</p>
-                    <p id="card-capex" class="text-sm font-bold font-mono-cyber mt-1 text-white">Rp 0</p>
+            <div class="lg:col-span-8 bg-[#020d24]/90 border border-slate-800 rounded-2xl p-5 flex flex-col shadow-2xl">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="text-sm font-bold tracking-wider text-slate-200 uppercase flex items-center gap-2">
+                            🟢 TRACK HISTORY LEDGER (EXCEL SPREADSHEET MODE)
+                        </h3>
+                        <p class="text-[11px] text-slate-500">Seluruh data perubahan tersimpan otomatis di sistem LocalStorage lokal.</p>
+                    </div>
+                    <button onclick="resetAllData()" class="text-[10px] font-mono-cyber text-red-400 border border-red-500/20 px-2 py-1 rounded bg-red-500/5 hover:bg-red-500/20 transition uppercase">
+                        [ Wipe All History Database ]
+                    </button>
                 </div>
-                <div class="glass-panel p-4 rounded-2xl border-l-2 border-red-500 bg-slate-900/20">
-                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">OPEX (Bahan)</p>
-                    <p id="card-opex" class="text-sm font-bold font-mono-cyber mt-1 text-red-400">Rp 0</p>
-                </div>
-                <div class="glass-panel p-4 rounded-2xl border-l-2 border-pink-500 bg-slate-900/20">
-                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Beban Gaji</p>
-                    <p id="card-gaji" class="text-sm font-bold font-mono-cyber mt-1 text-pink-400">Rp 0</p>
-                </div>
-                <div class="glass-panel p-4 rounded-2xl border-l-2 border-emerald-500 bg-slate-900/20">
-                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Revenue</p>
-                    <p id="card-revenue" class="text-sm font-bold font-mono-cyber mt-1 text-emerald-400">Rp 0</p>
-                </div>
-                <div class="glass-panel p-4 rounded-2xl col-span-2 md:col-span-1 border-l-2 border-amber-500 bg-amber-500/5">
-                    <p class="text-[9px] text-amber-400 font-bold uppercase tracking-wider">Net Laba</p>
-                    <p id="card-profit" class="text-sm font-bold font-mono-cyber mt-1 text-white">Rp 0</p>
-                </div>
-            </div>
 
-            <div class="glass-panel p-6 rounded-3xl">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-bold tracking-wider text-slate-300 uppercase flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Jurnal Finansial Konsolidasi
-                    </h3>
-                    <button onclick="wipeData()" class="text-[10px] font-mono-cyber text-red-400 hover:text-red-300 transition tracking-widest uppercase">[ Clear Core Database ]</button>
-                </div>
-                <div class="overflow-x-auto max-h-72 overflow-y-auto pr-2">
-                    <table class="w-full text-left text-xs">
+                <div class="overflow-x-auto flex-1 max-h-[500px]">
+                    <table class="w-full text-left border-collapse border border-slate-800">
                         <thead>
-                            <tr class="text-slate-500 font-mono-cyber border-b border-slate-800/80 uppercase">
-                                <th class="pb-3 font-medium">Timestamp</th>
-                                <th class="pb-3 font-medium">Ledger Kode</th>
-                                <th class="pb-3 font-medium">Deskripsi Transaksi</th>
-                                <th class="pb-3 text-right font-medium">Nominal Bersih</th>
+                            <tr>
+                                <th class="excel-th w-28">A_Tanggal</th>
+                                <th class="excel-th w-32">B_Pos_Akuntansi</th>
+                                <th class="excel-th">C_Deskripsi_Transaksi_Item</th>
+                                <th class="excel-th text-right w-36">D_Nominal_Rupiah</th>
+                                <th class="excel-th text-center w-16">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="ledger-box" class="divide-y divide-slate-800/30">
+                        <tbody id="excel-rows" class="bg-[#091530]/40 text-slate-300 font-mono-cyber">
                             </tbody>
                     </table>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="lg:col-span-5 space-y-8">
-           
-            <div class="glass-panel p-6 rounded-3xl glass-card-gold">
-                <h3 class="text-sm font-bold tracking-wider text-amber-400 uppercase mb-4 flex items-center gap-2">
-                    ⚡ Smart Transaction Entry
-                </h3>
-                <form id="erp-engine-form" class="space-y-4 text-xs">
-                    <div class="grid grid-cols-2 gap-4">
+        <div id="view-catalog" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glass-panel p-6 rounded-2xl h-fit">
+                    <h3 id="catalog-form-title" class="text-xs font-black tracking-widest text-amber-400 uppercase mb-4">🆕 Tambah Master Katalog</h3>
+                    <form id="form-catalog" class="space-y-4 text-xs">
+                        <input type="hidden" id="catalog-edit-id">
                         <div>
-                            <label class="block text-slate-400 mb-1 font-medium">Tanggal</label>
-                            <input type="date" id="tx-date" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-3 text-white outline-none glow-border">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1 font-medium">Kategori Sistem</label>
-                            <select id="tx-category" onchange="autoSuggestDescription()" class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-3 text-amber-400 outline-none glow-border font-bold">
-                                <option value="capex">CAPEX - Modal Awal & Alat</option>
-                                <option value="opex">OPEX - Belanja Bahan Baku</option>
-                                <option value="gaji">OPEX - Beban Gaji Karyawan</option>
-                                <option value="revenue">REVENUE - Penjualan Kasir / Toko</option>
-                                <option value="depresiasi">DEPRESIASI - Penyusutan Pasif</option>
+                            <label class="block text-slate-400 mb-1">Kelompok Pos</label>
+                            <select id="cat-group" class="w-full excel-input py-2.5">
+                                <option value="capex">CAPEX - Investasi Awal & Alat</option>
+                                <option value="opex">OPEX - Belanja Bahan Baku & Operasional</option>
+                                <option value="gaji">OPEX - Gaji Karyawan / Tenaga Kerja</option>
+                                <option value="revenue">REVENUE - Penjualan Produk / Pendapatan</option>
                             </select>
                         </div>
-                    </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Nama Barang / Referensi Gudang</label>
+                            <input type="text" id="cat-name" placeholder="Misal: Tahu Sutra Premium / Kedelai Organik" required class="w-full excel-input py-2.5">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">Standar Nilai / Estimasi Harga Default (Rp)</label>
+                            <input type="number" id="cat-price" placeholder="0" required class="w-full excel-input py-2.5 font-mono-cyber">
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" id="catalog-save-btn" class="flex-1 bg-amber-500 text-cyber-900 font-bold py-2.5 rounded-xl uppercase tracking-wider text-[11px] transition">
+                                Simpan Katalog
+                            </button>
+                            <button type="button" id="catalog-cancel-btn" onclick="resetCatalogForm()" class="hidden bg-slate-800 text-white font-bold px-3 py-2.5 rounded-xl uppercase text-[11px]">
+                                Batal
+                            </button>
+                        </div>
+                    </form>
+                </div>
 
-                    <div class="relative">
-                        <label class="block text-slate-400 mb-1 font-medium">Nama Pembelian / Item</label>
-                        <input type="text" id="tx-desc" placeholder="Ketik atau pilih rekomendasi..." required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-3 text-white outline-none glow-border" onfocus="showSuggestions()" onblur="hideSuggestions()">
-                        <div id="suggestion-box" class="absolute left-0 right-0 mt-1 bg-cyber-900 border border-slate-800 rounded-xl max-h-40 overflow-y-auto shadow-2xl hidden z-50 divide-y divide-slate-800/40">
-                            </div>
+                <div class="lg:col-span-2 glass-panel p-6 rounded-2xl">
+                    <h3 class="text-xs font-bold tracking-widest text-slate-300 uppercase mb-4">📁 Database Master Katalog Aktif</h3>
+                    <div class="overflow-x-auto max-h-[500px]">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400 font-mono-cyber uppercase">
+                                    <th class="p-3 font-medium">Kelompok</th>
+                                    <th class="p-3 font-medium">Nama Barang / Item</th>
+                                    <th class="p-3 font-medium text-right">Harga Default</th>
+                                    <th class="p-3 text-center">Operasi Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="catalog-rows" class="divide-y divide-slate-800/40">
+                                </tbody>
+                        </table>
                     </div>
-
-                    <div>
-                        <label class="block text-slate-400 mb-1 font-medium">Total Nominal (Rupiah)</label>
-                        <input type="number" id="tx-amount" placeholder="Contoh: 1500000" required class="w-full bg-slate-900/60 border border-slate-800 rounded-xl p-3 text-white outline-none glow-border font-mono-cyber text-sm tracking-wider">
-                    </div>
-
-                    <button type="submit" class="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-cyber-900 font-extrabold py-3.5 rounded-xl uppercase tracking-widest transition duration-300 shadow-[0_0_20px_rgba(245,158,11,0.2)] text-xs">
-                        Post to Business Ledger
-                    </button>
-                </form>
+                </div>
             </div>
+        </div>
 
-            <div class="glass-panel p-6 rounded-3xl">
-                <h3 class="text-sm font-bold tracking-wider text-slate-300 uppercase mb-4">
-                    🤝 Buku Log Piutang & Konsinyasi Distributor
-                </h3>
-                <form id="mitra-engine-form" class="space-y-3 text-xs mb-5 border-b border-slate-800/60 pb-5">
-                    <input type="text" id="mitra-name" placeholder="Nama Toko / Distributor / Agen" required class="w-full bg-slate-900/40 border border-slate-800/80 rounded-xl p-2.5 text-white outline-none glow-border">
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="number" id="mitra-qty" placeholder="Volume (Pcs)" required class="w-full bg-slate-900/40 border border-slate-800/80 rounded-xl p-2.5 text-white outline-none glow-border">
-                        <input type="number" id="mitra-price" placeholder="Harga Jual / Pcs" required class="w-full bg-slate-900/40 border border-slate-800/80 rounded-xl p-2.5 text-white outline-none glow-border">
-                    </div>
-                    <button type="submit" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold py-2 rounded-xl uppercase tracking-wider text-[10px] transition">
-                        + Daftarkan Piutang Konsinyasi
-                    </button>
-                </form>
-
-                <div id="mitra-list-box" class="space-y-3 max-h-48 overflow-y-auto pr-1">
-                    </div>
-            </div>
-
-        </section>
     </main>
 
     <script>
-        // Database Core Memory
-        let coreTx = JSON.parse(localStorage.getItem('gt_cyber_tx')) || [];
-        let coreMitra = JSON.parse(localStorage.getItem('gt_cyber_mitra')) || [];
+        // Inisialisasi Database dengan Data Katalog Default (Bisa Diedit/Hapus oleh User)
+        let masterCatalog = JSON.parse(localStorage.getItem('gt_master_catalog')) || [
+            { id: 1, group: 'capex', name: 'Mesin Penggiling Kedelai Modern', price: 4500000 },
+            { id: 2, group: 'opex', name: 'Kedelai Impor Grade A (Per Karung)', price: 650000 },
+            { id: 3, group: 'opex', name: 'Plastik Pembungkus Golden Tofu', price: 45000 },
+            { id: 4, group: 'gaji', name: 'Gaji Pokok Pegawai Produksi', price: 2500000 },
+            { id: 5, group: 'revenue', name: 'Penjualan Tahu Sutra Emas (Per Papan)', price: 80000 }
+        ];
 
-        // Preset Rekomendasi Nama Pembelian Sesuai Desain Smart Item
-        const smartSuggestions = {
-            capex: ["Mesin Penggiling Kedelai Otomatis", "Wajan Besar Stainless Steel", "Instalasi Tungku Gas Tekanan Tinggi", "Mesin Cetak Tofu Premium"],
-            opex: ["Kedelai Organik Grade A (Ton)", "Plastik Kemasan Golden Tofu", "Gas LPG Industrial 50kg", "Batu Tahu / Pengental Alami"],
-            gaji: ["Gaji Pegawai Produksi", "Gaji Driver Distribusi Logistik", "Bonus Lembur Shift Malam"],
-            revenue: ["Setoran Tunai Penjualan Toko Utama", "Pendapatan Agen Grosir Tahu", "Hasil Penjualan Ampas Tahu Ternak"],
-            depresiasi: ["Penyusutan Bulanan Mesin Giling", "Penyusutan Aset Alat Produksi"]
-        };
+        let historyLedger = JSON.parse(localStorage.getItem('gt_history_ledger')) || [];
 
         document.getElementById('tx-date').valueAsDate = new Date();
 
-        // Engine Suggesstion Item
-        function autoSuggestDescription() {
-            const cat = document.getElementById('tx-category').value;
-            document.getElementById('tx-desc').value = smartSuggestions[cat][0];
-        }
-
-        function showSuggestions() {
-            const cat = document.getElementById('tx-category').value;
-            const box = document.getElementById('suggestion-box');
-            box.innerHTML = '';
+        // Navigasi Tab Workspace
+        function switchTab(tabId) {
+            document.getElementById('view-core').classList.toggle('hidden', tabId !== 'core');
+            document.getElementById('view-catalog').classList.toggle('hidden', tabId !== 'catalog');
            
-            smartSuggestions[cat].forEach(item => {
-                const div = document.createElement('div');
-                div.className = "p-3 hover:bg-amber-500/10 cursor-pointer text-slate-300 hover:text-amber-400 transition font-medium text-xs";
-                div.innerText = item;
-                div.onmousedown = () => {
-                    document.getElementById('tx-desc').value = item;
-                };
-                box.appendChild(div);
+            document.getElementById('tab-btn-core').className = tabId === 'core' ? "px-4 py-2 text-xs font-bold rounded-lg transition bg-amber-500 text-cyber-900 shadow" : "px-4 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white";
+            document.getElementById('tab-btn-catalog').className = tabId === 'catalog' ? "px-4 py-2 text-xs font-bold rounded-lg transition bg-amber-500 text-cyber-900 shadow" : "px-4 py-2 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white";
+           
+            if(tabId === 'core') populateCatalogDropdown();
+        }
+
+        // --- SISTEM KATALOG MASTER ENGINE ---
+        function populateCatalogDropdown() {
+            const select = document.getElementById('tx-catalog-select');
+            select.innerHTML = '<option value="">-- PILIH DARI KATALOG MASTER --</option>';
+            masterCatalog.forEach(item => {
+                select.innerHTML += `<option value="${item.id}">${item.name} (${item.group.toUpperCase()})</option>`;
             });
-            box.classList.remove('hidden');
         }
 
-        function hideSuggestions() {
-            setTimeout(() => { document.getElementById('suggestion-box').classList.add('hidden'); }, 200);
+        function applyCatalogSelect() {
+            const selectId = document.getElementById('tx-catalog-select').value;
+            if(!selectId) return;
+            const item = masterCatalog.find(c => c.id == selectId);
+            if(item) {
+                document.getElementById('tx-desc').value = item.name;
+                document.getElementById('tx-category').value = item.group;
+                document.getElementById('tx-amount').value = item.price;
+            }
         }
 
-        // Action Post Transaction
-        document.getElementById('erp-engine-form').addEventListener('submit', function(e) {
+        // Simpan / Edit Master Katalog
+        document.getElementById('form-catalog').addEventListener('submit', function(e) {
             e.preventDefault();
-            coreTx.push({
-                id: Date.now(),
-                date: document.getElementById('tx-date').value,
-                category: document.getElementById('tx-category').value,
-                desc: document.getElementById('tx-desc').value,
-                amount: parseInt(document.getElementById('tx-amount').value)
-            });
-            saveAndRefresh();
+            const id = document.getElementById('catalog-edit-id').value;
+            const group = document.getElementById('cat-group').value;
+            const name = document.getElementById('cat-name').value;
+            const price = parseInt(document.getElementById('cat-price').value);
+
+            if(id) {
+                // Proses Update Edit
+                masterCatalog = masterCatalog.map(c => c.id == id ? { id: parseInt(id), group, name, price } : c);
+            } else {
+                // Tambah Baru
+                masterCatalog.push({ id: Date.now(), group, name, price });
+            }
+            saveCatalogData();
+            resetCatalogForm();
+        });
+
+        function editCatalog(id) {
+            const item = masterCatalog.find(c => c.id == id);
+            if(!item) return;
+            document.getElementById('catalog-form-title').innerText = "✏️ Edit Item Katalog";
+            document.getElementById('catalog-edit-id').value = item.id;
+            document.getElementById('cat-group').value = item.group;
+            document.getElementById('cat-name').value = item.name;
+            document.getElementById('cat-price').value = item.price;
+            document.getElementById('catalog-save-btn').innerText = "Update Katalog";
+            document.getElementById('catalog-cancel-btn').classList.remove('hidden');
+        }
+
+        function deleteCatalog(id) {
+            if(confirm("Hapus item ini dari database katalog master?")) {
+                masterCatalog = masterCatalog.filter(c => c.id != id);
+                saveCatalogData();
+            }
+        }
+
+        function resetCatalogForm() {
+            document.getElementById('catalog-form-title').innerText = "🆕 Tambah Master Katalog";
+            document.getElementById('catalog-edit-id').value = '';
+            document.getElementById('cat-name').value = '';
+            document.getElementById('cat-price').value = '';
+            document.getElementById('catalog-save-btn').innerText = "Simpan Katalog";
+            document.getElementById('catalog-cancel-btn').classList.add('hidden');
+        }
+
+        function saveCatalogData() {
+            localStorage.setItem('gt_master_catalog', JSON.stringify(masterCatalog));
+            renderCatalogTable();
+        }
+
+        // --- SISTEM TRANSAKSI & LIVE EXCEL ENGINE ---
+        document.getElementById('form-transaction').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const date = document.getElementById('tx-date').value;
+            const category = document.getElementById('tx-category').value || 'opex'; // fallback default
+            const desc = document.getElementById('tx-desc').value;
+            const amount = parseInt(document.getElementById('tx-amount').value);
+
+            historyLedger.push({ id: Date.now(), date, category, desc, amount });
+            saveLedgerData();
+           
+            // Clear inputs
+            document.getElementById('tx-desc').value = '';
             document.getElementById('tx-amount').value = '';
+            document.getElementById('tx-catalog-select').value = '';
+            document.getElementById('tx-category').value = '';
         });
 
-        // Action Post Konsinyasi Mitra
-        document.getElementById('mitra-engine-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('mitra-name').value;
-            const qty = parseInt(document.getElementById('mitra-qty').value);
-            const price = parseInt(document.getElementById('mitra-price').value);
-           
-            coreMitra.push({ id: Date.now(), name, qty, price, debt: qty * price });
-            saveAndRefresh();
-           
-            document.getElementById('mitra-name').value = '';
-            document.getElementById('mitra-qty').value = '';
-            document.getElementById('mitra-price').value = '';
-        });
-
-        // Action Setoran Lunas Distributor
-        function settleMitraDebt(id, debt, name) {
-            if(confirm(`Konfirmasi pelunasan setoran dari "${name}" senilai Rp ${debt.toLocaleString('id-ID')}?`)) {
-                coreTx.push({
-                    id: Date.now(),
-                    date: new Date().toISOString().split('T')[0],
-                    category: 'revenue',
-                    desc: `Setoran Konsinyasi Lunas - ${name}`,
-                    amount: debt
-                });
-                coreMitra = coreMitra.filter(m => m.id !== id);
-                saveAndRefresh();
+        function deleteLedgerRow(id) {
+            if(confirm("Hapus baris transaksi ini dari riwayat Excel?")) {
+                historyLedger = historyLedger.filter(l => l.id != id);
+                saveLedgerData();
             }
         }
 
-        function wipeData() {
-            if(confirm("🚨 WARNING: Anda akan menghapus seluruh data internal korporasi Golden Tofu. Reset system sekarang?")) {
-                coreTx = []; coreMitra = []; saveAndRefresh();
+        function resetAllData() {
+            if(confirm("🚨 CRITICAL WARNING: Anda akan menghapus seluruh data track history Excel. Lanjutkan?")) {
+                historyLedger = [];
+                saveLedgerData();
             }
         }
 
-        function saveAndRefresh() {
-            localStorage.setItem('gt_cyber_tx', JSON.stringify(coreTx));
-            localStorage.setItem('gt_cyber_mitra', JSON.stringify(coreMitra));
-            processFinancialCalculations();
+        function saveLedgerData() {
+            localStorage.setItem('gt_history_ledger', JSON.stringify(historyLedger));
+            renderFinanceAndExcelTable();
         }
 
-        // RENDER DAN MATEMATIKA AKUNTANSI
-        function processFinancialCalculations() {
-            let capex = 0, opex = 0, gaji = 0, revenue = 0, depresiasi = 0;
+        // --- CORE RENDER VISUAL ENGINE ---
+        function renderCatalogTable() {
+            const tbody = document.getElementById('catalog-rows');
+            tbody.innerHTML = '';
+            masterCatalog.forEach(c => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-white/5 transition font-medium">
+                        <td class="p-3 text-amber-400 font-mono-cyber uppercase font-bold text-[11px]">${c.group}</td>
+                        <td class="p-3 text-slate-200 font-semibold">${c.name}</td>
+                        <td class="p-3 text-right font-mono-cyber font-bold text-slate-300">Rp ${c.price.toLocaleString('id-ID')}</td>
+                        <td class="p-3 text-center space-x-2">
+                            <button onclick="editCatalog(${c.id})" class="text-blue-400 hover:underline">Edit</button>
+                            <button onclick="deleteCatalog(${c.id})" class="text-red-400 hover:underline">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
 
-            const ledgerBox = document.getElementById('ledger-box');
-            ledgerBox.innerHTML = '';
-           
-            coreTx.sort((a,b) => new Date(b.date) - new Date(a.date));
+        function renderFinanceAndExcelTable() {
+            let capex = 0, opex = 0, gaji = 0, revenue = 0;
+            const tbody = document.getElementById('excel-rows');
+            tbody.innerHTML = '';
 
-            coreTx.forEach(t => {
-                if(t.category === 'capex') capex += t.amount;
-                if(t.category === 'opex') opex += t.amount;
-                if(t.category === 'gaji') gaji += t.amount;
-                if(t.category === 'revenue') revenue += t.amount;
-                if(t.category === 'depresiasi') depresiasi += t.amount;
+            // Urutkan riwayat dari tanggal terbaru ke terlama
+            historyLedger.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-                let codeBadge = `<span class="border border-slate-700 font-mono-cyber px-2 py-0.5 rounded text-[10px] bg-slate-900">${t.category.toUpperCase()}</span>`;
+            historyLedger.forEach(l => {
+                if(l.category === 'capex') capex += l.amount;
+                if(l.category === 'opex') opex += l.amount;
+                if(l.category === 'gaji') gaji += l.amount;
+                if(l.category === 'revenue') revenue += l.amount;
+
                 let txColor = 'text-slate-300';
-                if(t.category === 'revenue') txColor = 'text-emerald-400 font-bold';
-                if(t.category === 'gaji' || t.category === 'opex') txColor = 'text-red-400';
+                if(l.category === 'revenue') txColor = 'text-emerald-400 font-bold';
+                if(l.category === 'opex' || l.category === 'gaji') txColor = 'text-red-400';
 
-                ledgerBox.innerHTML += `
-                    <tr class="hover:bg-white/5 transition border-b border-slate-800/20 font-medium">
-                        <td class="py-3 text-slate-500 font-mono-cyber text-[11px]">${t.date}</td>
-                        <td class="py-3">${codeBadge}</td>
-                        <td class="py-3 text-slate-300 truncate max-w-[180px]">${t.desc}</td>
-                        <td class="py-3 text-right font-mono-cyber ${txColor}">Rp ${t.amount.toLocaleString('id-ID')}</td>
+                tbody.innerHTML += `
+                    <tr class="hover:bg-amber-500/5 transition">
+                        <td class="excel-td text-slate-400">${l.date}</td>
+                        <td class="excel-td font-bold text-slate-400 uppercase text-[10px]">${l.category}</td>
+                        <td class="excel-td text-slate-200">${l.desc}</td>
+                        <td class="excel-td text-right ${txColor}">Rp ${l.amount.toLocaleString('id-ID')}</td>
+                        <td class="excel-td text-center">
+                            <button onclick="deleteLedgerRow(${l.id})" class="text-red-500 hover:text-red-400 text-[10px] font-bold">🗑️</button>
+                        </td>
                     </tr>
                 `;
             });
 
-            // Perhitungan Net Laba & Efisiensi Profitabilitas
-            let totalBeban = opex + gaji + depresiasi;
-            let netProfit = revenue - totalBeban;
+            // Perhitungan Laba Bersih
+            let netProfit = revenue - (opex + gaji);
+            document.getElementById('txt-net-profit').innerText = "Rp " + netProfit.toLocaleString('id-ID');
+
+            // Hitung Rasio Profitabilitas (%)
             let profitPct = revenue > 0 ? (netProfit / revenue) * 100 : 0;
             if(profitPct < 0) profitPct = 0;
-
-            // Render Values to Widgets
-            document.getElementById('card-capex').innerText = "Rp " + capex.toLocaleString('id-ID');
-            document.getElementById('card-opex').innerText = "Rp " + opex.toLocaleString('id-ID');
-            document.getElementById('card-gaji').innerText = "Rp " + gaji.toLocaleString('id-ID');
-            document.getElementById('card-revenue').innerText = "Rp " + revenue.toLocaleString('id-ID');
-            document.getElementById('card-profit').innerText = "Rp " + netProfit.toLocaleString('id-ID');
-            document.getElementById('txt-depresiasi').innerText = "Rp " + depresiasi.toLocaleString('id-ID');
             document.getElementById('txt-profit-pct').innerText = profitPct.toFixed(1) + "%";
 
-            // ROI Processing Logic
-            let progressRoi = 0;
-            let roiStatusText = '';
+            // Hitung ROI / BEP
+            let roiText = '';
             if(capex > 0) {
-                progressRoi = (netProfit / capex) * 100;
-                if(progressRoi < 0) progressRoi = 0;
-                if(progressRoi > 100) progressRoi = 100;
-
                 let sisa = capex - netProfit;
-                roiStatusText = sisa > 0 ? `Minus Rp ${sisa.toLocaleString('id-ID')} menuju BEP` : "🎉 LUNAS BALIK MODAL (Fase Profit Murni)";
+                roiText = sisa > 0 ? `Kurang Rp ${sisa.toLocaleString('id-ID')} untuk balik modal.` : "🎉 UNIT UTAMAKAN INVESTASI LUNAS! Profit Murni Berjalan.";
             } else {
-                roiStatusText = "Tunggu input dana Investasi Awal";
+                roiText = "Masukkan data modal awal (CAPEX) di katalog.";
             }
-            document.getElementById('bar-roi').style.width = `${progressRoi}%`;
-            document.getElementById('txt-roi-bar-pct').innerText = `${progressRoi.toFixed(1)}%`;
-            document.getElementById('txt-roi-status').innerText = roiStatusText;
-
-            // Render Buku Piutang Mitra
-            const mListBox = document.getElementById('mitra-list-box');
-            mListBox.innerHTML = '';
-            coreMitra.forEach(m => {
-                mListBox.innerHTML += `
-                    <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-3 flex justify-between items-center hover:border-slate-700 transition">
-                        <div>
-                            <p class="font-bold text-slate-200">${m.name}</p>
-                            <p class="text-[10px] text-slate-400 font-mono-cyber mt-0.5">${m.qty} Pcs x Rp ${m.price.toLocaleString('id-ID')}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs font-mono-cyber font-bold text-red-400">Rp ${m.debt.toLocaleString('id-ID')}</p>
-                            <button onclick="settleMitraDebt(${m.id}, ${m.debt}, '${m.name}')" class="text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded mt-1 hover:bg-emerald-500 hover:text-cyber-900 transition uppercase tracking-wider">Lunas</button>
-                        </div>
-                    </div>
-                `;
-            });
+            document.getElementById('txt-roi-status').innerText = roiText;
         }
 
-        // Initialize Call Engine
-        autoSuggestDescription();
-        processFinancialCalculations();
+        // Initial Booting System
+        populateCatalogDropdown();
+        renderCatalogTable();
+        renderFinanceAndExcelTable();
     </script>
 </body>
 </html>
